@@ -1,31 +1,32 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using System.Diagnostics;
+using Grpc.Net.Client;
+using Proto.Interfaces;
 
 namespace ConsoleApp1
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-        }
-
-        public string CalculateMd5Hash(byte[] fileData)
-        {
-            string hashMd5;
-            using (var md5 = MD5.Create())
+            try
             {
-                var hash = md5.ComputeHash(fileData);
-                var sb = new StringBuilder();
-                foreach (var t in hash)
-                {
-                    sb.Append(t.ToString("X2"));
-                }
-                hashMd5 = sb.ToString();
-            }
-            return hashMd5;
-        }
+                //wait for server
+                await Task.Delay(5000);
 
+                Debug.WriteLine("START");
+                using var channel = GrpcChannel.ForAddress("http://localhost:5001");
+                var client = new Greeter.GreeterClient(channel);
+                var reply = await client.SayHelloAsync(new HelloRequest
+                {
+                    Name = "Worker"
+                });
+                Debug.WriteLine($"Greeting: {reply.Message} -- {DateTime.Now}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 
 
