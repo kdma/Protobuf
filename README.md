@@ -12,6 +12,8 @@ Client GRPC
 
 ## Libro delle vacanze
 
+https://learn.microsoft.com/en-us/aspnet/core/grpc/?view=aspnetcore-7.0
+
 Aspetti da esplorare:
 
 Response paginati
