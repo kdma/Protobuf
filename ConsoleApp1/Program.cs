@@ -1,13 +1,49 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Grpc.Net.Client;
+using ProtoPublic;
 
 namespace ConsoleApp1
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            while (true)
+            {
+                 await TestComm();
+            }
+        }
+
+        private static async Task TestComm()
+        {
+            try
+            {
+                using var channel = GrpcChannel.ForAddress("http://localhost:1337");
+                var client = new Greeter.GreeterClient(channel);
+                var reply = await client.SayHello2Async(new HelloRequest
+                {
+                    Name = "Worker"
+                });
+                switch (reply.ResultDtoCase)
+                {
+                    case HelloReply2.ResultDtoOneofCase.None:
+                        break;
+                    case HelloReply2.ResultDtoOneofCase.Data:
+                        Console.WriteLine("DATA");
+                        break;
+                    case HelloReply2.ResultDtoOneofCase.Error:
+                        Console.WriteLine("Error");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                await Task.Delay(1000);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public string CalculateMd5Hash(byte[] fileData)
