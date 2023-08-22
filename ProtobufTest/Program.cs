@@ -1,7 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using ProtoPublic;
-using ProtoPublic.Service;
+using Proto.Interfaces.Service;
 
 namespace ProtobufTest
 {
@@ -18,8 +17,9 @@ namespace ProtobufTest
                     opt.Protocols = HttpProtocols.Http2;
                 });
             });
-            builder.Services.AddGrpc();
-            builder.Services.AddHostedService<GRpcHostedClient>();
+            builder.Services.AddGrpc(opt =>
+            {
+            });
             var app = builder.Build();
             app.MapGet("/", () => "Hello World!");
             app.MapGrpcService<GreeterService>();

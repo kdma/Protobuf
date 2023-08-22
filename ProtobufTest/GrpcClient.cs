@@ -1,5 +1,5 @@
 ﻿using Grpc.Net.Client;
-using ProtoPublic;
+using Proto.Interfaces;
 
 namespace ProtobufTest
 {

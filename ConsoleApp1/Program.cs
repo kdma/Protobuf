@@ -1,7 +1,5 @@
-﻿using System.Security.Cryptography;
-using System.Text;
 using Grpc.Net.Client;
-using ProtoPublic;
+using Proto.Interfaces;
 
 namespace ConsoleApp1
 {
@@ -45,24 +43,5 @@ namespace ConsoleApp1
                 Console.WriteLine(e);
             }
         }
-
-        public string CalculateMd5Hash(byte[] fileData)
-        {
-            string hashMd5;
-            using (var md5 = MD5.Create())
-            {
-                var hash = md5.ComputeHash(fileData);
-                var sb = new StringBuilder();
-                foreach (var t in hash)
-                {
-                    sb.Append(t.ToString("X2"));
-                }
-                hashMd5 = sb.ToString();
-            }
-            return hashMd5;
-        }
-
     }
-
-
 }
