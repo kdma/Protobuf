@@ -10,7 +10,7 @@ namespace ProtobufTest
         public GRpcHostedClient(ILogger<GRpcHostedClient> logger, IConfiguration configuration)
         {
             _logger = logger;
-            _url = configuration["Kestrel:Endpoints:gRPC:Url"];
+            _url = "http://localhost:1337";
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
