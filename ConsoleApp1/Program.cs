@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Grpc.Net.Client;
 using Proto.Interfaces;
 
@@ -7,13 +9,33 @@ namespace ConsoleApp1
     {
         static async Task Main(string[] args)
         {
+            //var readAllBytes = File.ReadAllBytes(@"C:\Users\FrancoMartinelli\Desktop\large.jpg");
+            //var length = readAllBytes.Length;
+            //var hash =  CalculateMd5Hash(readAllBytes);
+            //Console.WriteLine(hash);
             while (true)
             {
-                 await TestComm();
+                await TestComm();
             }
         }
 
-        private static async Task TestComm()
+        public static string CalculateMd5Hash(byte[] fileData)
+        {
+            string hashMd5;
+            using (var md5 = MD5.Create())
+            {
+                var hash = md5.ComputeHash(fileData);
+                var sb = new StringBuilder();
+                foreach (var t in hash)
+                {
+                    sb.Append(t.ToString("X2"));
+                }
+                hashMd5 = sb.ToString();
+            }
+            return hashMd5;
+        }
+
+    private static async Task TestComm()
         {
             try
             {
