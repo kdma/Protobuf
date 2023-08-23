@@ -1,6 +1,5 @@
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Proto.Interfaces.Service;
 
 namespace ProtobufTest
 {
